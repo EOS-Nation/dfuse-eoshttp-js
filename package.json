@@ -1,5 +1,5 @@
 {
-  "name": "dfuse-eoshttp",
+  "name": "@dfuse/eoshttp-js",
   "version": "0.1.0",
   "description": "dfuse.io HTTP API Javascript library",
   "main": "dist/index.js",
@@ -8,5 +8,10 @@
     "prepare": "tsc"
   },
   "author": "Denis Carriere <denis@eosnation.io>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/isomorphic-fetch": "*",
+    "isomorphic-fetch": "*",
+    "typescript": "*"
+  }
 }

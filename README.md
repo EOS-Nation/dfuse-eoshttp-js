@@ -16,14 +16,17 @@ npm install --save @dfuse/eoshttp-js
 
 ## Quick Start
 
-```
-const { Api } = require("@dfuse/eoshttp-js")
+```js
+const { JsonRpc } = require("@dfuse/eoshttp-js")
 const fetch = require("isomorphic-fetch")
 
-const endpoint = "mainnet.eos.dfuse.io"
+const endpoint = "https://mainnet.eos.dfuse.io"
 const token = "<Paste your API token here>"
-const api = new Api({ endpoint, token, fetch })
+const rpc = new JsonRpc(endpoint, { fetch, token })
+
+rpc.auth_issue("<Paste your Server API token here>").then(response => {
+    console.log(response.token, response.expires_at)
+})
 ```
 
 ## API
-
