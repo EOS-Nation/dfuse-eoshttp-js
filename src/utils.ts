@@ -1,5 +1,8 @@
 export function queryParams(params: {[key: string]: any}) {
-    return Object.keys(params)
-        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-        .join('&');
+    const entries = []
+    for (const key of Object.keys(params)) {
+        const value = params[key]
+        if (value !== undefined) entries.push(encodeURIComponent(key) + '=' + encodeURIComponent(value))
+    }
+    return entries.join("&")
 }

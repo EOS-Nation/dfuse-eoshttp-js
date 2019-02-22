@@ -91,26 +91,80 @@ export class JsonRpc {
         return await this.post('/v1/auth/issue', { api_key });
     }
 
-    /** Raw call to `/v0/state/table` */
-    public async state_table<T>(account: string, scope: string, table: string, block_num: number) {
+    /**
+     * GET /v0/state/table
+     *
+     * Fetches the state of any table, at any block height.
+     *
+     * @param {string} account Contract account targeted by the action.
+     * @param {string} scope The name-encoded scope of the table you are requesting.
+     * For example, user balances for tokens live in their account name's scope.
+     * This is contract dependent, so inspect the ABI for the contract you are interested in.
+     * @param {string} table The name-encoded table name you want to retrieve.
+     * For example, user balances for tokens live in the accounts table.
+     * Refer to the contract's ABI for a list of available tables.
+     * This is contract dependent.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
+     * @param {boolean} [options.json=false] Decode each row from its binary form into JSON. If json: false, then hexadecimal representation of its binary data is returned instead.
+     * @param {string} [options.key_type="name"] How to represent the row keys in the returned table.
+     * @param {boolean} [options.with_block_num] Will return one block_num with each row. Represents the block at which that row was last changed.
+     * @param {boolean} [options.with_abi] Will return the ABI in effect at block block_num.
+     */
+    public async state_table<T>(account: string, scope: string, table: string, options: {
+        block_num?: number
+        json?: boolean
+        key_type?: string
+        with_block_num?: boolean
+        with_abi?: boolean
+    } = {}) {
         const params = {
             account,
             scope,
             table,
-            block_num,
-            json: true
+            block_num: options.block_num,
+            json: options.json,
+            key_type: options.key_type,
+            with_block_num: options.with_block_num,
+            with_abi: options.with_abi,
         }
         return await this.get<StateTable<T>>('/v0/state/table', params);
     }
 
-    /** Raw call to `/v0/state/tables/scopes` */
-    public async state_tables_scopes<T>(account: string, scopes: string[], table: string, block_num: number) {
+    /**
+     * GET /v0/state/tables/scopes
+     *
+     * Fetches a table for a given contract account for a group of scopes, at any block height.
+     *
+     * @param {string} account Contract account targeted by the action.
+     * @param {string[]} scope A Name list, a maximum of 1500 elements can be present in the list.
+     * @param {string} table The name-encoded table name you want to retrieve.
+     * For example, user balances for tokens live in the accounts table.
+     * Refer to the contract's ABI for a list of available tables.
+     * This is contract dependent.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
+     * @param {boolean} [options.json=false] Decode each row from its binary form into JSON. If json: false, then hexadecimal representation of its binary data is returned instead.
+     * @param {string} [options.key_type="name"] How to represent the row keys in the returned table.
+     * @param {boolean} [options.with_block_num] Will return one block_num with each row. Represents the block at which that row was last changed.
+     * @param {boolean} [options.with_abi] Will return the ABI in effect at block block_num.
+     */
+    public async state_tables_scopes<T>(account: string, scopes: string[], table: string, options: {
+        block_num?: number
+        json?: boolean
+        key_type?: string
+        with_block_num?: boolean
+        with_abi?: boolean
+    } = {}) {
         const params = {
             account,
             scopes: scopes.join('|'),
             table,
-            block_num,
-            json: true
+            block_num: options.block_num,
+            json: options.json,
+            key_type: options.key_type,
+            with_block_num: options.with_block_num,
+            with_abi: options.with_abi,
         }
         return await this.get<StateTableScopes<T>>('/v0/state/tables/scopes', params);
     }
