@@ -1,0 +1,12 @@
+{
+  "name": "dfuse-eoshttp",
+  "version": "0.1.0",
+  "description": "dfuse.io HTTP API Javascript library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepare": "tsc"
+  },
+  "author": "Denis Carriere <denis@eosnation.io>",
+  "license": "MIT"
+}
