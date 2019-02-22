@@ -8,16 +8,13 @@
     "dist"
   ],
   "scripts": {
-    "prepare": "tsc",
-    "docs": "typedoc index.ts --theme markdown --out docs"
+    "prepare": "tsc"
   },
   "author": "Denis Carriere <denis@eosnation.io>",
   "license": "MIT",
   "devDependencies": {
     "@types/isomorphic-fetch": "*",
     "isomorphic-fetch": "*",
-    "typedoc": "*",
-    "typedoc-plugin-markdown": "*",
     "typescript": "*"
   }
 }
