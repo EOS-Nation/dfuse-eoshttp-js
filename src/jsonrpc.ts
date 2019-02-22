@@ -86,7 +86,9 @@ export class JsonRpc {
         return json;
     }
 
-    /** Raw call to `/v1/auth/issue` */
+    /**
+     * POST /v1/auth/issue
+     */
     public async auth_issue(api_key: string): Promise<AuthIssue> {
         return await this.post('/v1/auth/issue', { api_key });
     }
