@@ -4,14 +4,20 @@
   "description": "dfuse.io HTTP API Javascript library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "prepare": "tsc"
+    "prepare": "tsc",
+    "docs": "typedoc index.ts --theme markdown --out docs"
   },
   "author": "Denis Carriere <denis@eosnation.io>",
   "license": "MIT",
   "devDependencies": {
     "@types/isomorphic-fetch": "*",
     "isomorphic-fetch": "*",
+    "typedoc": "*",
+    "typedoc-plugin-markdown": "*",
     "typescript": "*"
   }
 }

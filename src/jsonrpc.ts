@@ -2,6 +2,7 @@ import { AuthIssue, StateTable, StateTableScopes } from './api-interfaces';
 import { RpcError } from './rpcerror';
 
 export type Fetch = (url: string | Request, init?: RequestInit) => Promise<Response>;
+declare const global: any
 
 /** Make RPC calls */
 export class JsonRpc {
@@ -57,11 +58,11 @@ export class JsonRpc {
     }
 
     /** Raw call to `/v0/state/table` */
-    public async state_table<T>(code: string, scope: string, table: string, block_num: number): Promise<StateTable<T>> {
+    public async state_table<T>(account: string, scope: string, table: string, block_num: number): Promise<StateTable<T>> {
         const params = {
-            account: code,
-            table,
+            account,
             scope,
+            table,
             block_num,
             json: true
         }
@@ -69,11 +70,11 @@ export class JsonRpc {
     }
 
     /** Raw call to `/v0/state/tables/scopes` */
-    public async state_tables_scopes<T>(code: string, scopes: string[], table: string, block_num: number): Promise<StateTableScopes<T>> {
+    public async state_tables_scopes<T>(account: string, scopes: string[], table: string, block_num: number): Promise<StateTableScopes<T>> {
         const params = {
-            account: code,
-            table,
+            account,
             scopes: scopes.join('|'),
+            table,
             block_num,
             json: true
         }
