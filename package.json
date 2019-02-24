@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "prepare": "tsc"
+    "prepublishOnly": "tsc"
   },
   "author": "Denis Carriere <denis@eosnation.io>",
   "license": "MIT",
