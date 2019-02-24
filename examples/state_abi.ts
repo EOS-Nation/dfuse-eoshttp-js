@@ -2,10 +2,9 @@ import fetch from "isomorphic-fetch"
 import { JsonRpc } from "../index";
 
 const endpoint = process.env.DFUSE_IO_ENDPOINT || "https://mainnet.eos.dfuse.io"
-const server_token = process.env.DFUSE_IO_SERVER_API_KEY || "";
-const rpc = new JsonRpc(endpoint, { fetch })
+const token = process.env.TOKEN || "";
+const rpc = new JsonRpc(endpoint, { fetch, token })
 
-console.log(server_token)
-rpc.auth_issue(server_token).then(response => {
+rpc.state_abi('eosio', { block_num: 128, json: true }).then(response => {
     console.log(response)
 })

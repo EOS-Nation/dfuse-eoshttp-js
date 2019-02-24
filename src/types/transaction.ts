@@ -1,11 +1,5 @@
 import { ActionTrace, Action } from "./action_trace"
 
-export interface SearchTransactionsResponse<T> {
-    cursor?:              string;
-    transactions:         SearchTransactionsRow[];
-    forked_head_warning?: boolean;
-}
-
 export interface SearchTransactionsRow {
     lifecycle:  TransactionLifecycle;
     action_idx: number[];

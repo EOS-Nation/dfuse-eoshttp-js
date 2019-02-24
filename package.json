@@ -16,5 +16,8 @@
     "@types/isomorphic-fetch": "*",
     "isomorphic-fetch": "*",
     "typescript": "*"
+  },
+  "dependencies": {
+    "@types/node": "^11.9.5"
   }
 }
