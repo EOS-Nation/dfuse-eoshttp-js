@@ -30,7 +30,7 @@ export class RpcStatusError extends Error {
             super(response.statusText);
         }
 
-        Object.setPrototypeOf(this, RpcError.prototype);
+        Object.setPrototypeOf(this, RpcStatusError.prototype);
         this.response = response;
     }
 }
