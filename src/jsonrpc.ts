@@ -78,7 +78,7 @@ export class JsonRpc {
             if (response.status !== 200) {
                 throw new RpcStatusError(response);
             }
-            
+
             json = await response.json();
             if (json.processed && json.processed.except) {
                 throw new RpcError(json);
@@ -183,7 +183,7 @@ export class JsonRpc {
     /**
      * GET /v0/state/permission_links
      *
-     * Fetches the ABI for a given contract account, at any block height.
+     * Fetches snapshots of any account's linked authorizations on the blockchain, at any block height.
      *
      * @param {string} account Contract account targeted by the action.
      * @param {object} [options={}] Optional parameters

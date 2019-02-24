@@ -7,9 +7,9 @@ export interface SearchTransactionsRow {
 
 export interface TransactionData {
     lifecycle: TransactionLifecycle
-  }
-  
-  export interface TransactionLifecycle {
+}
+
+export interface TransactionLifecycle {
     id: string
     transaction: Transaction
     transaction_status: string
@@ -24,9 +24,9 @@ export interface TransactionData {
     execution_irreversible: boolean
     creation_irreversible: boolean
     cancelation_irreversible: boolean
-  }
-  
-  export interface Transaction {
+}
+
+export interface Transaction {
     expiration: string
     ref_block_num: number
     ref_block_prefix: number
@@ -38,16 +38,16 @@ export interface TransactionData {
     transaction_extensions: any[]
     signatures?: string[]
     context_free_data?: Array<Action<any>>
-  }
-  
-  export interface ExtDTrxOp extends DTrxOp {
+}
+
+export interface ExtDTrxOp extends DTrxOp {
     src_trx_id: string
     block_num: number
     block_id: string
     block_time: string
-  }
-  
-  export interface DTrxOp {
+}
+
+export interface DTrxOp {
     op: string
     action_idx: number
     sender: string
@@ -58,9 +58,9 @@ export interface TransactionData {
     expiration_at: string
     trx_id: string
     trx?: Transaction
-  }
-  
-  export interface DBOp {
+}
+
+export interface DBOp {
     op: string
     action_idx: number
     account: string
@@ -69,31 +69,31 @@ export interface TransactionData {
     old: DBRow
     new: DBRow
     key: string
-  }
-  
-  export interface DBRow {
+}
+
+export interface DBRow {
     key: string
     payer: string
     hex?: string
     json?: any
     error?: string
-  }
-  
-  export interface RAMOp {
+}
+
+export interface RAMOp {
     op: string
     action_idx: number
     payer: string
     delta: number
     usage: number
-  }
-  
-  export interface TransactionReceipt {
+}
+
+export interface TransactionReceipt {
     status: string
     cpu_usage_us: number
     net_usage_words: number
-  }
-  
-  export interface TransactionTrace {
+}
+
+export interface TransactionTrace {
     id: string
     block_num: number
     block_time: string
@@ -105,9 +105,9 @@ export interface TransactionData {
     action_traces: Array<ActionTrace<any>>
     failed_dtrx_trace: TransactionTrace
     except: any
-  }
-  
-  export interface BlockHeader {
+}
+
+export interface BlockHeader {
     timestamp: string
     producer: string
     confirmed: number
@@ -117,4 +117,4 @@ export interface TransactionData {
     schedule_version: number
     new_producers: null
     header_extensions: any[]
-  }
+}

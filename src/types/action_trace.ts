@@ -4,8 +4,8 @@ export interface ActionTraceData<T> {
     depth: number
     trace: ActionTrace<T>
   }
-  
-  export interface ActionTrace<T> {
+
+export interface ActionTrace<T> {
     receipt: ActionReceipt
     act: Action<T>
     elapsed: number
@@ -15,21 +15,21 @@ export interface ActionTraceData<T> {
     trx_id: string
     inline_traces: Array<ActionTrace<any>>
   }
-  
-  export interface Action<T> {
+
+export interface Action<T> {
     account: string
     name: string
     authorization: Authorization[]
     data: T
     hex_data: string
-  }
-  
-  export interface Authorization {
+}
+
+export interface Authorization {
     actor: string
     permission: string
-  }
-  
-  export interface ActionReceipt {
+}
+
+export interface ActionReceipt {
     receiver: string
     act_digest: string
     global_sequence: number
@@ -37,5 +37,4 @@ export interface ActionTraceData<T> {
     auth_sequence: Array<Array<number | string>>
     code_sequence: number
     abi_sequence: number
-  }
-  
+}
