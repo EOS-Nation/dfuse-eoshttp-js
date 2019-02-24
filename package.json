@@ -1,5 +1,5 @@
 {
-  "name": "@dfuse/eoshttp-js",
+  "name": "dfuse-eoshttp-js",
   "version": "0.1.0",
   "description": "dfuse.io HTTP API Javascript library",
   "main": "dist/index.js",

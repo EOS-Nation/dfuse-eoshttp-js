@@ -5,19 +5,19 @@
 Using Yarn:
 
 ```
-yarn add @dfuse/eoshttp-js
+yarn add dfuse-eoshttp-js
 ```
 
 or using NPM:
 
 ```
-npm install --save @dfuse/eoshttp-js
+npm install --save dfuse-eoshttp-js
 ```
 
 ## Quick Start
 
 ```js
-const { JsonRpc } = require("@dfuse/eoshttp-js")
+const { JsonRpc } = require("dfuse-eoshttp-js")
 const fetch = require("isomorphic-fetch")
 
 const endpoint = "https://mainnet.eos.dfuse.io"
