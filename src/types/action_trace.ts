@@ -13,7 +13,7 @@ export interface ActionTrace<T> {
     console: string
     total_cpu_usage: number
     trx_id: string
-    inline_traces: Array<ActionTrace<any>>
+    inline_traces: Array<ActionTrace<T>>
   }
 
 export interface Action<T> {

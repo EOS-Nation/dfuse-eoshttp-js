@@ -3,24 +3,24 @@ import { StateTableRow, TableScopes } from './tables';
 
 export interface SearchTransactionsResponse<T> {
     cursor?: string;
-    transactions: SearchTransactionsRow[];
+    transactions: SearchTransactionsRow<T>[];
     forked_head_warning?: boolean;
 }
 
-export interface StateAbiResponse<T> {
+export interface StateAbiResponse {
     block_num: string;
     account: string;
     abi: object;
 }
 
-export interface StateAbiBinToJsonResponse<T> {
+export interface StateAbiBinToJsonResponse {
     block_num: string;
     account: string;
     table: string;
     abi: object;
 }
 
-export interface StatePermissionLinksResponse<T> {
+export interface StatePermissionLinksResponse {
     up_to_block_id?: string;
     up_to_block_num?: number;
     last_irreversible_block_id?: string;

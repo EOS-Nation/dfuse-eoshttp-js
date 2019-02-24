@@ -1,53 +1,53 @@
 import { ActionTrace, Action } from "./action_trace"
 
-export interface SearchTransactionsRow {
-    lifecycle:  TransactionLifecycle;
+export interface SearchTransactionsRow<T> {
+    lifecycle:  TransactionLifecycle<T>;
     action_idx: number[];
 }
 
-export interface TransactionData {
-    lifecycle: TransactionLifecycle
+export interface TransactionData<T> {
+    lifecycle: TransactionLifecycle<T>
 }
 
-export interface TransactionLifecycle {
+export interface TransactionLifecycle<T> {
     id: string
-    transaction: Transaction
+    transaction: Transaction<T>
     transaction_status: string
     execution_trace: TransactionTrace
     execution_block_header: BlockHeader
-    dtrxops: DTrxOp[]
+    dtrxops: DTrxOp<T>[]
     dbops: DBOp[]
     ramops?: RAMOp[]
     pub_keys: string[]
-    created_by?: ExtDTrxOp
-    canceled_by?: ExtDTrxOp
+    created_by?: ExtDTrxOp<T>
+    canceled_by?: ExtDTrxOp<T>
     execution_irreversible: boolean
     creation_irreversible: boolean
     cancelation_irreversible: boolean
 }
 
-export interface Transaction {
+export interface Transaction<T> {
     expiration: string
     ref_block_num: number
     ref_block_prefix: number
     max_net_usage_words: number
     max_cpu_usage_ms: number
     delay_sec: number
-    context_free_actions: Array<Action<any>>
-    actions: Array<Action<any>>
+    context_free_actions: Array<Action<T>>
+    actions: Array<Action<T>>
     transaction_extensions: any[]
     signatures?: string[]
-    context_free_data?: Array<Action<any>>
+    context_free_data?: Array<Action<T>>
 }
 
-export interface ExtDTrxOp extends DTrxOp {
+export interface ExtDTrxOp<T> extends DTrxOp<T> {
     src_trx_id: string
     block_num: number
     block_id: string
     block_time: string
 }
 
-export interface DTrxOp {
+export interface DTrxOp<T> {
     op: string
     action_idx: number
     sender: string
@@ -57,7 +57,7 @@ export interface DTrxOp {
     delay_until: string
     expiration_at: string
     trx_id: string
-    trx?: Transaction
+    trx?: Transaction<T>
 }
 
 export interface DBOp {
