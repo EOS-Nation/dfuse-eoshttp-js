@@ -1,4 +1,5 @@
-import { AuthIssue, StateTable, StateTableScopes, SearchTransactionsResponse } from './api-interfaces';
+import { AuthIssue, StateTable, StateTableScopes } from './types/tables';
+import { SearchTransactionsResponse } from './types/transaction';
 import { RpcError } from './rpcerror';
 import { queryParams } from "./utils";
 import { V1_AUTH_ISSUE, V0_STATE_TABLE, V0_STATE_TABLES_SCOPES, V0_SEARCH_TRANSACTIONS } from './endpoints';
