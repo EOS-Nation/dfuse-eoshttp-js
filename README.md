@@ -25,6 +25,12 @@ const token = "<Paste your API token here>"
 const rpc = new JsonRpc(endpoint, { fetch, token })
 ```
 
+## ENV Variables
+```
+DFUSE_IO_ENDPOINT=<Enter Dfuse Endpoint>  # "https://mainnet.eos.dfuse.io"
+DFUSE_IO_SERVER_API_KEY=<Paste your API token here>  # Get key at dfuse.io
+```
+
 ## API
 
 ### GET /v0/state/table

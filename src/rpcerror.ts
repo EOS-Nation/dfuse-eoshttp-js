@@ -20,3 +20,17 @@ export class RpcError extends Error {
         this.json = json;
     }
 }
+
+export class RpcStatusError extends Error {
+    /** Detailed error information */
+    public response: any;
+
+    constructor(response: any) {
+        if (response.status === 405) {
+            super(response.statusText);
+        }
+
+        Object.setPrototypeOf(this, RpcError.prototype);
+        this.response = response;
+    }
+}

@@ -1,6 +1,8 @@
-import { AuthIssue, StateTable, StateTableScopes } from './api-interfaces';
-import { RpcError } from './rpcerror';
+import { AuthIssue } from './types/tables';
+import { RpcError, RpcStatusError } from './rpcerror';
 import { queryParams } from "./utils";
+import { V1_AUTH_ISSUE, V0_STATE_TABLE, V0_STATE_TABLES_SCOPES, V0_SEARCH_TRANSACTIONS, V0_STATE_ABI, V0_STATE_ABI_BIN_TO_JSON, V0_STATE_PERMISSION_LINKS, V0_STATE_TABLES_ACCOUNTS } from './endpoints';
+import { StateAbiResponse, StateAbiBinToJsonResponse, StatePermissionLinksResponse, MultiStateResponse, StateResponse, SearchTransactionsResponse } from './types/api';
 
 export type Fetch = (url: string | Request, init?: RequestInit) => Promise<Response>;
 declare const global: any
@@ -72,6 +74,11 @@ export class JsonRpc {
                 },
                 method: 'GET',
             });
+
+            if (response.status !== 200) {
+                throw new RpcStatusError(response);
+            }
+            
             json = await response.json();
             if (json.processed && json.processed.except) {
                 throw new RpcError(json);
@@ -90,7 +97,106 @@ export class JsonRpc {
      * POST /v1/auth/issue
      */
     public async auth_issue(api_key: string): Promise<AuthIssue> {
-        return await this.post('/v1/auth/issue', { api_key });
+        return await this.post(V1_AUTH_ISSUE, { api_key });
+    }
+
+    /**
+     * GET /v0/search/transactions
+     *
+     * Search an EOSIO blockchain for transactions based on free-form criterias, using the simple dfuse Search query language.
+     *
+     * @param {string} q Search query string. See Search language (https://docs.dfuse.io/#ref-search-query-specs) specs for details.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.start_block] Block number to start search (inclusive). Defaults to 0, which means Last Irreversible Block (tip of the chain).
+     * @param {number} [options.sort] Defaults to ascending search. Use DESC to sort descending.
+     * @param {number} [options.block_count] Number of blocks to search from start_block. Depending on sort order, the block_count will count upwards or downwards.
+     * @param {number} [options.limit] Cap the number of returned results to limit. Defaults to 100.
+     * @param {number} [options.cursor] If cursor is passed back (from a previous response)
+     * @param {number} [options.with_reversible] If with_reversible is set to true actions included in blocks that are not yet irreversible will be included.
+     */
+    public async search_transactions<T>(q: string, options: {
+        start_block?: number
+        sort?: string
+        block_count?: string
+        limit?: number
+        cursor?: string
+        with_reversible?: boolean
+    } = {}) {
+        const params = {
+            q,
+            start_block: options.start_block,
+            sort: options.sort,
+            block_count: options.block_count,
+            limit: options.limit,
+            cursor: options.cursor,
+            with_reversible: options.with_reversible,
+        }
+        return await this.get<SearchTransactionsResponse<T>>(V0_SEARCH_TRANSACTIONS, params);
+    }
+
+    /**
+     * GET /v0/state/abi
+     *
+     * Fetches the ABI for a given contract account, at any block height.
+     *
+     * @param {string} account Contract account targeted by the action.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
+     * @param {boolean} [options.json=false] Decode each row from its binary form into JSON. If json: false, then hexadecimal representation of its binary data is returned instead.
+     */
+    public async state_abi<T>(account: string, options: {
+        block_num?: number
+        json?: boolean
+    } = {}) {
+        const params = {
+            account,
+            block_num: options.block_num,
+            json: options.json
+        }
+        return await this.get<StateAbiResponse<T>>(V0_STATE_ABI, params);
+    }
+
+    /**
+     * GET /v0/state/abi/bin_to_json
+     *
+     * Fetches the ABI for a given contract account, at any block height.
+     *
+     * @param {string} account Contract account targeted by the action.
+     * @param {string} table The name-encoded table name you want to retrieve. For example, user balances for tokens live in the accounts table. Refer to the contract's ABI for a list of available tables. This is contract dependent.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
+     * @param {string[]} [options.hex_rows] An array of hexadecimal rows to decode. Each row must be a valid hexadecimal string representation of the row to decode against the ABI.
+     */
+    public async state_abi_bin_to_json<T>(account: string, table: string, options: {
+        block_num?: number
+        hex_rows?: string[]
+    } = {}) {
+        const params = {
+            account,
+            table,
+            block_num: options.block_num,
+            hex_rows: JSON.stringify(options.hex_rows)
+        }
+        return await this.get<StateAbiBinToJsonResponse<T>>(V0_STATE_ABI_BIN_TO_JSON, params);
+    }
+
+    /**
+     * GET /v0/state/permission_links
+     *
+     * Fetches the ABI for a given contract account, at any block height.
+     *
+     * @param {string} account Contract account targeted by the action.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
+     */
+    public async state_permission_links<T>(account: string, options: {
+        block_num?: number
+    } = {}) {
+        const params = {
+            account,
+            block_num: options.block_num
+        }
+        return await this.get<StatePermissionLinksResponse<T>>(V0_STATE_PERMISSION_LINKS, params);
     }
 
     /**
@@ -130,7 +236,45 @@ export class JsonRpc {
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
         }
-        return await this.get<StateTable<T>>('/v0/state/table', params);
+        return await this.get<StateResponse<T>>(V0_STATE_TABLE, params);
+    }
+
+    /**
+     * GET /v0/state/tables/accounts
+     *
+     * Fetches a table for a given contract account for a group of scopes, at any block height.
+     *
+     * @param {string} accounts An AccountName list a maximum of 1500 elements can be present in the list.
+     * @param {string[]} scope A Name list, a maximum of 1500 elements can be present in the list.
+     * @param {string} table The name-encoded table name you want to retrieve.
+     * For example, user balances for tokens live in the accounts table.
+     * Refer to the contract's ABI for a list of available tables.
+     * This is contract dependent.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
+     * @param {boolean} [options.json=false] Decode each row from its binary form into JSON. If json: false, then hexadecimal representation of its binary data is returned instead.
+     * @param {string} [options.key_type="name"] How to represent the row keys in the returned table.
+     * @param {boolean} [options.with_block_num] Will return one block_num with each row. Represents the block at which that row was last changed.
+     * @param {boolean} [options.with_abi] Will return the ABI in effect at block block_num.
+     */
+    public async state_tables_accounts<T>(accounts: string[], scope: string, table: string, options: {
+        block_num?: number
+        json?: boolean
+        key_type?: string
+        with_block_num?: boolean
+        with_abi?: boolean
+    } = {}) {
+        const params = {
+            accounts: accounts.join('|'),
+            scope,
+            table,
+            block_num: options.block_num,
+            json: options.json,
+            key_type: options.key_type,
+            with_block_num: options.with_block_num,
+            with_abi: options.with_abi,
+        }
+        return await this.get<MultiStateResponse<T>>(V0_STATE_TABLES_ACCOUNTS, params);
     }
 
     /**
@@ -168,6 +312,6 @@ export class JsonRpc {
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
         }
-        return await this.get<StateTableScopes<T>>('/v0/state/tables/scopes', params);
+        return await this.get<MultiStateResponse<T>>(V0_STATE_TABLES_SCOPES, params);
     }
 }
