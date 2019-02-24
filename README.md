@@ -1,4 +1,4 @@
-# dfuse.io HTTP API Javascript library
+# [dfuse.io](https://www.dfuse.io) HTTP API Javascript library
 
 ## Installation
 
@@ -16,6 +16,8 @@ npm install --save dfuse-eoshttp-js
 
 ## Quick Start
 
+**CommonJS**
+
 ```js
 const { JsonRpc } = require("dfuse-eoshttp-js")
 const fetch = require("isomorphic-fetch")
@@ -25,11 +27,23 @@ const token = "<Paste your API token here>"
 const rpc = new JsonRpc(endpoint, { fetch, token })
 ```
 
+**TypeScript**
+
+```ts
+import { JsonRpc } from "dfuse-eoshttp-js"
+import fetch from "isomorphic-fetch"
+
+const endpoint = "https://mainnet.eos.dfuse.io"
+const token = "<Paste your API token here>"
+const rpc = new JsonRpc(endpoint, { fetch, token })
+```
+
 ## ENV Variables
 
-```
+```bash
 DFUSE_IO_ENDPOINT=<Enter Dfuse Endpoint>  # "https://mainnet.eos.dfuse.io"
-DFUSE_IO_SERVER_API_KEY=<Paste your API token here>  # Get key at dfuse.io
+DFUSE_IO_API_KEY=<Paste your API token here>  # Get key at dfuse.io
+DFUSE_IO_SERVER_API_KEY=<Paste your Server API token here>  # Get key at dfuse.io
 ```
 
 ## API
