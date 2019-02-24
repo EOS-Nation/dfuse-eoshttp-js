@@ -32,13 +32,14 @@ export class JsonRpc {
     }
 
     /** POST `body` to `endpoint + path`. Throws detailed error information in `RpcError` when available. */
-    public async fetch<T>(path: string, body: any): Promise<T> {
+    public async post<T>(path: string, body: any): Promise<T> {
         let response;
         let json;
         try {
             const f = this.fetchBuiltin;
             response = await f(this.endpoint + path, {
                 body: JSON.stringify(body),
+                headers: this.token ? {Authorization: `Bearer ${this.token}`} : {},
                 method: 'POST',
             });
             json = await response.json();
@@ -55,11 +56,6 @@ export class JsonRpc {
         return json;
     }
 
-    /** POST `body` to `endpoint + path`. Throws detailed error information in `RpcError` when available. */
-    public async post<T>(path: string, body: any): Promise<T> {
-        return this.fetch(path, body);
-    }
-
     /** GET `params` to `endpoint + path`. Throws detailed error information in `RpcError` when available. */
     public async get<T>(path: string, params: any): Promise<T> {
         let response;
@@ -69,9 +65,7 @@ export class JsonRpc {
         try {
             const f = this.fetchBuiltin;
             response = await f(url, {
-                headers: {
-                    Authorization: `Bearer ${this.token}`
-                },
+                headers: this.token ? {Authorization: `Bearer ${this.token}`} : {},
                 method: 'GET',
             });
 
@@ -177,9 +171,9 @@ export class JsonRpc {
             account,
             table,
             block_num: options.block_num,
-            hex_rows: JSON.stringify(options.hex_rows)
+            hex_rows: options.hex_rows
         }
-        return await this.get<StateAbiBinToJsonResponse>(V0_STATE_ABI_BIN_TO_JSON, params);
+        return await this.post<StateAbiBinToJsonResponse>(V0_STATE_ABI_BIN_TO_JSON, params);
     }
 
     /**
