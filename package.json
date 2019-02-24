@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "prepublishOnly": "tsc",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "posttest": "tslint -p ."
   },
   "author": "Denis Carriere <denis@eosnation.io>",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "isomorphic-fetch": "*",
     "ts-jest": "*",
     "ts-node": "*",
+    "tslint": "*",
     "typescript": "*"
   },
   "dependencies": {}

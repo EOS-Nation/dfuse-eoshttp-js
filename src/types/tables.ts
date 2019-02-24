@@ -7,7 +7,7 @@ export interface StateTableRow<T> {
 export interface TableScopes<T> {
     account: string;
     scope: string;
-    rows: TableScopesRow<T>[];
+    rows: Array<TableScopesRow<T>>;
 }
 
 export interface TableScopesRow<T> {

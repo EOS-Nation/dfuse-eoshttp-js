@@ -1,9 +1,9 @@
-import { SearchTransactionsRow } from './transaction';
-import { StateTableRow, TableScopes } from './tables';
+import { StateTableRow, TableScopes } from "./tables";
+import { SearchTransactionsRow } from "./transaction";
 
 export interface SearchTransactionsResponse<T> {
     cursor?: string;
-    transactions: SearchTransactionsRow<T>[];
+    transactions: Array<SearchTransactionsRow<T>>;
     forked_head_warning?: boolean;
 }
 
@@ -40,7 +40,7 @@ export interface StateResponse<T> {
     last_irreversible_block_id?: string;
     last_irreversible_block_num?: number;
     abi?: number;
-    rows: StateTableRow<T>[];
+    rows: Array<StateTableRow<T>>;
 }
 
 export interface MultiStateResponse<T> {
@@ -49,5 +49,5 @@ export interface MultiStateResponse<T> {
     last_irreversible_block_id?: string;
     last_irreversible_block_num?: number;
     abi?: object;
-    tables: TableScopes<T>[];
+    tables: Array<TableScopes<T>>;
 }

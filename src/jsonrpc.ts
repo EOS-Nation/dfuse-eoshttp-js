@@ -1,11 +1,19 @@
-import { AuthIssue } from './types/tables';
-import { RpcError, RpcStatusError } from './rpcerror';
-import { queryParams } from "./utils";
-import { V1_AUTH_ISSUE, V0_STATE_TABLE, V0_STATE_TABLES_SCOPES, V0_SEARCH_TRANSACTIONS, V0_STATE_ABI, V0_STATE_ABI_BIN_TO_JSON, V0_STATE_PERMISSION_LINKS, V0_STATE_TABLES_ACCOUNTS } from './endpoints';
-import { StateAbiResponse, StateAbiBinToJsonResponse, StatePermissionLinksResponse, MultiStateResponse, StateResponse, SearchTransactionsResponse } from './types/api';
+import { V0_SEARCH_TRANSACTIONS, V0_STATE_ABI, V0_STATE_ABI_BIN_TO_JSON, V0_STATE_PERMISSION_LINKS, V0_STATE_TABLE, V0_STATE_TABLES_ACCOUNTS, V0_STATE_TABLES_SCOPES, V1_AUTH_ISSUE } from "./endpoints";
+import { RpcError, RpcStatusError } from "./rpcerror";
+import { MultiStateResponse, SearchTransactionsResponse, StateAbiBinToJsonResponse, StateAbiResponse, StatePermissionLinksResponse, StateResponse } from "./types/api";
+import { AuthIssue } from "./types/tables";
+
+function queryParams(params: {[key: string]: any}) {
+    const entries = [];
+    for (const key of Object.keys(params)) {
+        const value = params[key];
+        if (value !== undefined) { entries.push(encodeURIComponent(key) + "=" + encodeURIComponent(value)); }
+    }
+    return entries.join("&");
+}
 
 export type Fetch = (url: string | Request, init?: RequestInit) => Promise<Response>;
-declare const global: any
+declare const global: any;
 
 /** Make RPC calls */
 export class JsonRpc {
@@ -40,7 +48,7 @@ export class JsonRpc {
             response = await f(this.endpoint + path, {
                 body: JSON.stringify(body),
                 headers: this.token ? {Authorization: `Bearer ${this.token}`} : {},
-                method: 'POST',
+                method: "POST",
             });
             json = await response.json();
             if (json.processed && json.processed.except) {
@@ -61,12 +69,12 @@ export class JsonRpc {
         let response;
         let json;
         const url = this.endpoint + path + "?" + queryParams(params);
-        if (!this.token) throw new Error("dfuse.io API token is required")
+        if (!this.token) { throw new Error("dfuse.io API token is required"); }
         try {
             const f = this.fetchBuiltin;
             response = await f(url, {
                 headers: this.token ? {Authorization: `Bearer ${this.token}`} : {},
-                method: 'GET',
+                method: "GET",
             });
 
             if (response.status !== 200) {
@@ -116,7 +124,7 @@ export class JsonRpc {
         block_count?: string
         limit?: number
         cursor?: string
-        with_reversible?: boolean
+        with_reversible?: boolean,
     } = {}) {
         const params = {
             q,
@@ -126,7 +134,7 @@ export class JsonRpc {
             limit: options.limit,
             cursor: options.cursor,
             with_reversible: options.with_reversible,
-        }
+        };
         return await this.get<SearchTransactionsResponse<T>>(V0_SEARCH_TRANSACTIONS, params);
     }
 
@@ -142,13 +150,13 @@ export class JsonRpc {
      */
     public async state_abi(account: string, options: {
         block_num?: number
-        json?: boolean
+        json?: boolean,
     } = {}) {
         const params = {
             account,
             block_num: options.block_num,
-            json: options.json
-        }
+            json: options.json,
+        };
         return await this.get<StateAbiResponse>(V0_STATE_ABI, params);
     }
 
@@ -165,14 +173,14 @@ export class JsonRpc {
      */
     public async state_abi_bin_to_json(account: string, table: string, options: {
         block_num?: number
-        hex_rows?: string[]
+        hex_rows?: string[],
     } = {}) {
         const params = {
             account,
             table,
             block_num: options.block_num,
-            hex_rows: options.hex_rows
-        }
+            hex_rows: options.hex_rows,
+        };
         return await this.post<StateAbiBinToJsonResponse>(V0_STATE_ABI_BIN_TO_JSON, params);
     }
 
@@ -186,12 +194,12 @@ export class JsonRpc {
      * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
      */
     public async state_permission_links(account: string, options: {
-        block_num?: number
+        block_num?: number,
     } = {}) {
         const params = {
             account,
-            block_num: options.block_num
-        }
+            block_num: options.block_num,
+        };
         return await this.get<StatePermissionLinksResponse>(V0_STATE_PERMISSION_LINKS, params);
     }
 
@@ -220,7 +228,7 @@ export class JsonRpc {
         json?: boolean
         key_type?: string
         with_block_num?: boolean
-        with_abi?: boolean
+        with_abi?: boolean,
     } = {}) {
         const params = {
             account,
@@ -231,7 +239,7 @@ export class JsonRpc {
             key_type: options.key_type,
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
-        }
+        };
         return await this.get<StateResponse<T>>(V0_STATE_TABLE, params);
     }
 
@@ -258,10 +266,10 @@ export class JsonRpc {
         json?: boolean
         key_type?: string
         with_block_num?: boolean
-        with_abi?: boolean
+        with_abi?: boolean,
     } = {}) {
         const params = {
-            accounts: accounts.join('|'),
+            accounts: accounts.join("|"),
             scope,
             table,
             block_num: options.block_num,
@@ -269,7 +277,7 @@ export class JsonRpc {
             key_type: options.key_type,
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
-        }
+        };
         return await this.get<MultiStateResponse<T>>(V0_STATE_TABLES_ACCOUNTS, params);
     }
 
@@ -296,18 +304,18 @@ export class JsonRpc {
         json?: boolean
         key_type?: string
         with_block_num?: boolean
-        with_abi?: boolean
+        with_abi?: boolean,
     } = {}) {
         const params = {
             account,
-            scopes: scopes.join('|'),
+            scopes: scopes.join("|"),
             table,
             block_num: options.block_num,
             json: options.json,
             key_type: options.key_type,
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
-        }
+        };
         return await this.get<MultiStateResponse<T>>(V0_STATE_TABLES_SCOPES, params);
     }
 }
