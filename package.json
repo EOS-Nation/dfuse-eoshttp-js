@@ -8,14 +8,18 @@
     "dist"
   ],
   "scripts": {
-    "prepublishOnly": "tsc"
+    "prepublishOnly": "tsc",
+    "test": "jest --coverage"
   },
   "author": "Denis Carriere <denis@eosnation.io>",
   "license": "MIT",
   "devDependencies": {
     "@types/isomorphic-fetch": "*",
+    "@types/jest": "*",
     "@types/node": "*",
     "isomorphic-fetch": "*",
+    "ts-jest": "*",
+    "ts-node": "*",
     "typescript": "*"
   },
   "dependencies": {}
