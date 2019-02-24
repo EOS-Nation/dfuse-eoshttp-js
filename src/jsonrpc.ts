@@ -1,6 +1,7 @@
-import { AuthIssue, StateTable, StateTableScopes } from './api-interfaces';
+import { AuthIssue, StateTable, StateTableScopes, SearchTransactionsResponse } from './api-interfaces';
 import { RpcError } from './rpcerror';
 import { queryParams } from "./utils";
+import { V1_AUTH_ISSUE, V0_STATE_TABLE, V0_STATE_TABLES_SCOPES, V0_SEARCH_TRANSACTIONS } from './endpoints';
 
 export type Fetch = (url: string | Request, init?: RequestInit) => Promise<Response>;
 declare const global: any
@@ -90,7 +91,41 @@ export class JsonRpc {
      * POST /v1/auth/issue
      */
     public async auth_issue(api_key: string): Promise<AuthIssue> {
-        return await this.post('/v1/auth/issue', { api_key });
+        return await this.post(V1_AUTH_ISSUE, { api_key });
+    }
+
+    /**
+     * GET /v0/search/transactions
+     *
+     * Search an EOSIO blockchain for transactions based on free-form criterias, using the simple dfuse Search query language.
+     *
+     * @param {string} q Search query string. See Search language (https://docs.dfuse.io/#ref-search-query-specs) specs for details.
+     * @param {object} [options={}] Optional parameters
+     * @param {number} [options.start_block] Block number to start search (inclusive). Defaults to 0, which means Last Irreversible Block (tip of the chain).
+     * @param {number} [options.sort] Defaults to ascending search. Use DESC to sort descending.
+     * @param {number} [options.block_count] Number of blocks to search from start_block. Depending on sort order, the block_count will count upwards or downwards.
+     * @param {number} [options.limit] Cap the number of returned results to limit. Defaults to 100.
+     * @param {number} [options.cursor] If cursor is passed back (from a previous response)
+     * @param {number} [options.with_reversible] If with_reversible is set to true actions included in blocks that are not yet irreversible will be included.
+     */
+    public async search_transactions<T>(q: string, options: {
+        start_block?: number
+        sort?: string
+        block_count?: string
+        limit?: boolean
+        cursor?: boolean
+        with_reversible?: boolean
+    } = {}) {
+        const params = {
+            q,
+            start_block: options.start_block,
+            sort: options.sort,
+            block_count: options.block_count,
+            limit: options.limit,
+            cursor: options.cursor,
+            with_reversible: options.with_reversible,
+        }
+        return await this.get<SearchTransactionsResponse<T>>(V0_SEARCH_TRANSACTIONS, params);
     }
 
     /**
@@ -130,7 +165,7 @@ export class JsonRpc {
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
         }
-        return await this.get<StateTable<T>>('/v0/state/table', params);
+        return await this.get<StateTable<T>>(V0_STATE_TABLE, params);
     }
 
     /**
@@ -168,6 +203,6 @@ export class JsonRpc {
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
         }
-        return await this.get<StateTableScopes<T>>('/v0/state/tables/scopes', params);
+        return await this.get<StateTableScopes<T>>(V0_STATE_TABLES_SCOPES, params);
     }
 }
