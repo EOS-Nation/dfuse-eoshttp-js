@@ -14,10 +14,9 @@
   "license": "MIT",
   "devDependencies": {
     "@types/isomorphic-fetch": "*",
+    "@types/node": "*",
     "isomorphic-fetch": "*",
     "typescript": "*"
   },
-  "dependencies": {
-    "@types/node": "^11.9.5"
-  }
+  "dependencies": {}
 }
