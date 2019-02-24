@@ -95,6 +95,8 @@ export class JsonRpc {
 
     /**
      * POST /v1/auth/issue
+     *
+     * Issues Dfuse API Key using a Server Token
      */
     public async auth_issue(api_key: string): Promise<AuthIssue> {
         return await this.post(V1_AUTH_ISSUE, { api_key });

@@ -114,3 +114,12 @@ rpc.state_tables_scopes("eosio.token", ["b1", "eosio.null"], "accounts", {json: 
     }
 })
 ```
+### POST /v1/auth/issue
+
+> Issues Dfuse API Key using a Server Token
+
+```js
+rpc.auth_issue(server_token).then(response => {
+    console.log(response)
+})
+```
