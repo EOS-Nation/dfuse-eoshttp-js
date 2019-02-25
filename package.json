@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/isomorphic-fetch": "*",
-    "@types/jest": "*",
+    "@types/jest": "^24.0.6",
     "@types/node": "*",
     "isomorphic-fetch": "*",
     "ts-jest": "*",
