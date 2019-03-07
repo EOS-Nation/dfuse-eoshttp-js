@@ -100,8 +100,8 @@ export class JsonRpc {
      *
      * Issues Dfuse API Key using a Server Token
      */
-    public async auth_issue(api_key: string): Promise<AuthIssue> {
-        return await this.post(V1_AUTH_ISSUE, { api_key });
+    public auth_issue(api_key: string) {
+        return this.post<AuthIssue>(V1_AUTH_ISSUE, { api_key });
     }
 
     /**
@@ -118,7 +118,7 @@ export class JsonRpc {
      * @param {number} [options.cursor] If cursor is passed back (from a previous response)
      * @param {number} [options.with_reversible] If with_reversible is set to true actions included in blocks that are not yet irreversible will be included.
      */
-    public async search_transactions<T = unknown>(q: string, options: {
+    public search_transactions<T = unknown>(q: string, options: {
         start_block?: number
         sort?: string
         block_count?: string
@@ -135,7 +135,7 @@ export class JsonRpc {
             cursor: options.cursor,
             with_reversible: options.with_reversible,
         };
-        return await this.get<SearchTransactionsResponse<T>>(V0_SEARCH_TRANSACTIONS, params);
+        return this.get<SearchTransactionsResponse<T>>(V0_SEARCH_TRANSACTIONS, params);
     }
 
     /**
@@ -148,7 +148,7 @@ export class JsonRpc {
      * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
      * @param {boolean} [options.json=false] Decode each row from its binary form into JSON. If json: false, then hexadecimal representation of its binary data is returned instead.
      */
-    public async state_abi(account: string, options: {
+    public state_abi(account: string, options: {
         block_num?: number
         json?: boolean,
     } = {}) {
@@ -157,7 +157,7 @@ export class JsonRpc {
             block_num: options.block_num,
             json: options.json,
         };
-        return await this.get<StateAbiResponse>(V0_STATE_ABI, params);
+        return this.get<StateAbiResponse>(V0_STATE_ABI, params);
     }
 
     /**
@@ -171,7 +171,7 @@ export class JsonRpc {
      * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
      * @param {string[]} [options.hex_rows] An array of hexadecimal rows to decode. Each row must be a valid hexadecimal string representation of the row to decode against the ABI.
      */
-    public async state_abi_bin_to_json(account: string, table: string, options: {
+    public state_abi_bin_to_json(account: string, table: string, options: {
         block_num?: number
         hex_rows?: string[],
     } = {}) {
@@ -181,7 +181,7 @@ export class JsonRpc {
             block_num: options.block_num,
             hex_rows: options.hex_rows,
         };
-        return await this.post<StateAbiBinToJsonResponse>(V0_STATE_ABI_BIN_TO_JSON, params);
+        return this.post<StateAbiBinToJsonResponse>(V0_STATE_ABI_BIN_TO_JSON, params);
     }
 
     /**
@@ -193,14 +193,14 @@ export class JsonRpc {
      * @param {object} [options={}] Optional parameters
      * @param {number} [options.block_num] The block number for which you want to retrieve the consistent table snapshot.
      */
-    public async state_permission_links(account: string, options: {
+    public state_permission_links(account: string, options: {
         block_num?: number,
     } = {}) {
         const params = {
             account,
             block_num: options.block_num,
         };
-        return await this.get<StatePermissionLinksResponse>(V0_STATE_PERMISSION_LINKS, params);
+        return this.get<StatePermissionLinksResponse>(V0_STATE_PERMISSION_LINKS, params);
     }
 
     /**
@@ -223,7 +223,7 @@ export class JsonRpc {
      * @param {boolean} [options.with_block_num] Will return one block_num with each row. Represents the block at which that row was last changed.
      * @param {boolean} [options.with_abi] Will return the ABI in effect at block block_num.
      */
-    public async state_table<T = unknown>(account: string, scope: string, table: string, options: {
+    public state_table<T = unknown>(account: string, scope: string, table: string, options: {
         block_num?: number
         json?: boolean
         key_type?: string
@@ -240,7 +240,7 @@ export class JsonRpc {
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
         };
-        return await this.get<StateResponse<T>>(V0_STATE_TABLE, params);
+        return this.get<StateResponse<T>>(V0_STATE_TABLE, params);
     }
 
     /**
@@ -261,7 +261,7 @@ export class JsonRpc {
      * @param {boolean} [options.with_block_num] Will return one block_num with each row. Represents the block at which that row was last changed.
      * @param {boolean} [options.with_abi] Will return the ABI in effect at block block_num.
      */
-    public async state_tables_accounts<T = unknown>(accounts: string[], scope: string, table: string, options: {
+    public state_tables_accounts<T = unknown>(accounts: string[], scope: string, table: string, options: {
         block_num?: number
         json?: boolean
         key_type?: string
@@ -278,7 +278,7 @@ export class JsonRpc {
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
         };
-        return await this.get<MultiStateResponse<T>>(V0_STATE_TABLES_ACCOUNTS, params);
+        return this.get<MultiStateResponse<T>>(V0_STATE_TABLES_ACCOUNTS, params);
     }
 
     /**
@@ -299,7 +299,7 @@ export class JsonRpc {
      * @param {boolean} [options.with_block_num] Will return one block_num with each row. Represents the block at which that row was last changed.
      * @param {boolean} [options.with_abi] Will return the ABI in effect at block block_num.
      */
-    public async state_tables_scopes<T = unknown>(account: string, scopes: string[], table: string, options: {
+    public state_tables_scopes<T = unknown>(account: string, scopes: string[], table: string, options: {
         block_num?: number
         json?: boolean
         key_type?: string
@@ -316,6 +316,6 @@ export class JsonRpc {
             with_block_num: options.with_block_num,
             with_abi: options.with_abi,
         };
-        return await this.get<MultiStateResponse<T>>(V0_STATE_TABLES_SCOPES, params);
+        return this.get<MultiStateResponse<T>>(V0_STATE_TABLES_SCOPES, params);
     }
 }
