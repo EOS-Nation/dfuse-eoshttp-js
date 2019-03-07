@@ -112,16 +112,16 @@ export class JsonRpc {
      * @param {string} q Search query string. See Search language (https://docs.dfuse.io/#ref-search-query-specs) specs for details.
      * @param {object} [options={}] Optional parameters
      * @param {number} [options.start_block] Block number to start search (inclusive). Defaults to 0, which means Last Irreversible Block (tip of the chain).
-     * @param {number} [options.sort] Defaults to ascending search. Use DESC to sort descending.
+     * @param {string} [options.sort] Defaults to ascending search. Use DESC to sort descending.
      * @param {number} [options.block_count] Number of blocks to search from start_block. Depending on sort order, the block_count will count upwards or downwards.
      * @param {number} [options.limit] Cap the number of returned results to limit. Defaults to 100.
-     * @param {number} [options.cursor] If cursor is passed back (from a previous response)
-     * @param {number} [options.with_reversible] If with_reversible is set to true actions included in blocks that are not yet irreversible will be included.
+     * @param {string} [options.cursor] If cursor is passed back (from a previous response)
+     * @param {boolean} [options.with_reversible] If with_reversible is set to true actions included in blocks that are not yet irreversible will be included.
      */
     public search_transactions<T = unknown>(q: string, options: {
         start_block?: number
         sort?: string
-        block_count?: string
+        block_count?: number
         limit?: number
         cursor?: string
         with_reversible?: boolean,
