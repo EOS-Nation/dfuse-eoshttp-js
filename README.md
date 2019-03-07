@@ -41,9 +41,9 @@ const rpc = new JsonRpc(endpoint, { fetch, token })
 ## ENV Variables
 
 ```bash
-DFUSE_IO_ENDPOINT=<Enter Dfuse Endpoint>  # "https://mainnet.eos.dfuse.io"
-DFUSE_IO_API_KEY=<Paste your API token here>  # Get key at dfuse.io
-DFUSE_IO_SERVER_API_KEY=<Paste your Server API token here>  # Get key at dfuse.io
+DFUSE_ENDPOINT=<Enter Dfuse Endpoint>  # "https://mainnet.eos.dfuse.io"
+DFUSE_API_KEY=<Paste your API token here>  # Get key at dfuse.io
+DFUSE_SERVER_API_KEY=<Paste your Server API token here>  # Get key at dfuse.io
 ```
 
 ## API

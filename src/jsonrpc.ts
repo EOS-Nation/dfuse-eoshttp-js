@@ -18,7 +18,7 @@ declare const global: any;
 /** Make RPC calls */
 export class JsonRpc {
     public endpoint: string;
-    public token: string = "";
+    public token: string = (process) ? process.env.DFUSE_API_KEY || "" : "";
     public fetchBuiltin: Fetch;
 
     /**
