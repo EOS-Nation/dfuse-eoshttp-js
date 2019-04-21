@@ -44,8 +44,10 @@ export class JsonRpc {
         let response;
         let json;
         try {
+            // handle changing full URL path (ex: auth_issue)
+            const url = path.includes("http") ? path : this.endpoint + path;
             const f = this.fetchBuiltin;
-            response = await f(this.endpoint + path, {
+            response = await f(url, {
                 body: JSON.stringify(body),
                 headers: this.token ? {Authorization: `Bearer ${this.token}`} : {},
                 method: "POST",
