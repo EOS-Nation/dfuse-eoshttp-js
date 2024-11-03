@@ -1,3 +1,9 @@
+# 🚧 Deprecation Notice
+
+dfuse services will be discontinued on **September 25, 2024**, as Pinax transitions to more advanced and efficient solutions for Antelope blockchain data sourcing. We encourage all users to migrate to Pinax's new services, including **Substreams, Firehose**, and comprehensive blockchain data services supporting dozens of chains like EOS, WAX, and Telos. Dfuse users can start building with a **FREE Pinax Pro Plan**.
+
+Learn more and get started at https://pinax.network.
+
 # [dfuse.io](https://www.dfuse.io) HTTP API Javascript library
 
 ## Installation
